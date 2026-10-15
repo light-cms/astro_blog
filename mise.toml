@@ -1,8 +1,10 @@
 [tools]
 "github:sass/dart-sass" = "latest"
 bun = "latest"
+node = "latest"
 
 [tasks]
 start = "bun run dev"
 build = "bun install && bun run build"
 index = "bun x pagefind --site dist"
+install = "bun install"

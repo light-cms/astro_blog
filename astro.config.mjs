@@ -2,8 +2,7 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 
 export default defineConfig({
-  site: "https://light-cms.github.io",
-  base: "astro_blog",
+  site: "https://light-cms.github.io/astro_blog",
   integrations: [
     starlight({
       title: "Astro Blog",

@@ -1,0 +1,31 @@
+---
+title: Astro Blog
+description: A basic displayable Astro Starlight boilerplate.
+template: splash
+hero:
+  tagline: A minimal Starlight starter with docs and a small blog.
+  actions:
+    - text: Get started
+      link: /intro/
+      icon: right-arrow
+    - text: Read the blog
+      link: /blog/first-post/
+      icon: open-book
+      variant: secondary
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## What's inside
+
+<CardGrid stagger>
+  <Card title="Docs page" icon="document">
+    Edit `src/content/docs/intro.md` to write your own guide.
+  </Card>
+  <Card title="Tiny blog" icon="pencil">
+    Posts live in `src/content/docs/blog/` and appear in the sidebar automatically.
+  </Card>
+  <Card title="Plain CSS" icon="setting">
+    Tweak `src/styles/custom.css` to make it yours.
+  </Card>
+</CardGrid>

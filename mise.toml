@@ -1,0 +1,8 @@
+[tools]
+"github:sass/dart-sass" = "latest"
+bun = "latest"
+
+[tasks]
+start = "hugo server "
+build = "hugo"
+index = "bun x pagefind --site public"

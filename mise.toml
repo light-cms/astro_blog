@@ -3,6 +3,6 @@
 bun = "latest"
 
 [tasks]
-start = "hugo server "
-build = "hugo"
-index = "bun x pagefind --site public"
+start = "bun run dev"
+build = "bun install && bun run build"
+index = "bun x pagefind --site dist"

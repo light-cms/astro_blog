@@ -1,0 +1,94 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends Omit<HTMLAttributes<"a">, "href"> {
+	variant?: "primary" | "secondary" | "ghost";
+	href: string | URL;
+}
+
+const {
+	class: className,
+	variant = "primary",
+	href,
+	target,
+	rel,
+	...attrs
+} = Astro.props;
+
+const _linkRel =
+	target === "_blank"
+		? [
+				"noopener",
+				"noreferrer",
+				...(typeof rel === "string" ? rel.split(" ") : (rel ?? [])),
+			].join(" ")
+		: rel;
+---
+
+<a
+	class:list={['sl-button not-content', variant, className]}
+	href={href}
+	target={target}
+	rel={_linkRel}
+	{...attrs}
+>
+	<slot />
+</a>
+
+<style>
+	@layer starlight.components {
+		.sl-button {
+			align-items: center;
+			align-self: center;
+			border: 1px solid transparent;
+			border-radius: 999rem;
+			display: inline-flex;
+			font-size: var(--sl-text-sm);
+			gap: 0.5em;
+			justify-content: center;
+			line-height: 1.1875;
+			outline-offset: 0.25rem;
+			padding: 0.4375rem 1.125rem;
+			text-decoration: none;
+			transition:
+				background-color 0.15s ease-in-out,
+				border-color 0.15s ease-in-out,
+				color 0.15s ease-in-out;
+		}
+
+		.sl-button.primary {
+			background: var(--sl-color-text-accent);
+			border-color: var(--sl-color-text-accent);
+			color: var(--sl-color-black);
+		}
+		.sl-button.primary:hover {
+			background: var(--sl-color-accent-high);
+			border-color: var(--sl-color-accent-high);
+			color: var(--sl-color-black);
+		}
+
+		.sl-button.secondary {
+			border-color: var(--sl-color-hairline);
+			background: var(--sl-color-gray-6);
+			color: var(--sl-color-white);
+		}
+		.sl-button.secondary:hover {
+			border-color: var(--sl-color-gray-5);
+			color: var(--sl-color-white);
+		}
+
+		.sl-button.ghost {
+			border-color: var(--sl-color-hairline);
+			color: var(--sl-color-white);
+		}
+		.sl-button.ghost:hover {
+			background: var(--sl-color-gray-6);
+			border-color: var(--sl-color-gray-5);
+			color: var(--sl-color-white);
+		}
+
+		.sl-button:focus-visible {
+			outline: 2px solid var(--sl-color-text-accent);
+		}
+	}
+</style>

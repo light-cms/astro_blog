@@ -1,10 +1,31 @@
 [tools]
-"github:sass/dart-sass" = "latest"
-bun = "latest"
 node = "latest"
+bun = "latest"
 
-[tasks]
-start = "bun run dev"
-build = "bun install && bun run build"
-index = "bun x pagefind --site dist"
-install = "bun install"
+[settings]
+experimental = true
+
+[tasks.build]
+run = '''
+bun install
+bun run build
+'''
+description = "Build the project"
+
+[tasks.preview]
+run = "bun run preview"
+description = "Preview the project"
+
+[tasks.deploy]
+run = '''
+mise run build
+'''
+description = "Build for GitHub Pages"
+
+[tasks.start]
+run = "bun run dev"
+description = "Start dev server"
+
+[tasks.install]
+run = "bun install"
+description = "Install dependencies"

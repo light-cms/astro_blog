@@ -1,0 +1,10 @@
+{
+  "$schema": "https://beta.frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "Blog",
+      "path": "[[workspace]]/src/content/docs/blog",
+      "previewPath": "blog"
+    }
+  ]
+}

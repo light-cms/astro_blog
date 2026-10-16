@@ -1,45 +1,56 @@
-name: github pages
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+name: ci
 
 permissions:
   contents: read
   pages: write
   id-token: write
+  actions: write
+  artifact-metadata: write
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MISE_EXPERIMENTAL: true
+  MISE_TRUST_ALL: 1
 
 jobs:
-  deploy:
+  ci:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/jdx/mise:2026.9.6
+      image: ghcr.io/jdx/mise:2026.9.2
     steps:
-      - name: checkout code
-        uses: actions/checkout@main
-      - name: cache mise dependencies
+      - name: Cache
         uses: actions/cache@main
         with:
           path: |
-            ~/.local/share/mise/installs
-            ~/.local/share/mise/cache
-          key: mise-${{ runner.os }}-${{ hashFiles('mise.toml') }}
+            ~/.cache/mise
+            ~/.local/share/mise
+          key: mise-${{ runner.os }}
           restore-keys: |
-            mise-${{ runner.os }}-
-      - name: Build
-        run: |
-            mise trust
-            mise deps
-            mise run install
-            mise run build
+            mise-${{ runner.os }}
+
+      - name: checkout
+        uses: actions/checkout@main
+      - run: |
+          mise trust
+          mise deps
+          mise install
+          mise run build
 
       - name: Upload artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@main
         with:
           path: ./dist
 
       - name: Deploy to GitHub Pages
         id: deployment
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/deploy-pages@main
